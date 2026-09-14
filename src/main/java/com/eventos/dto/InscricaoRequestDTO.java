@@ -1,4 +1,6 @@
 package com.eventos.dto;
 
-public record InscricaoRequestDTO(Long eventoId, Long participanteId) {
+import java.time.LocalDate;
+
+public record InscricaoRequestDTO(Long eventoId, Long participanteId, LocalDate dataInscricao) {
 }
