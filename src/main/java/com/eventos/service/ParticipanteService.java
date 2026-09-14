@@ -4,7 +4,6 @@ import com.eventos.dto.ParticipanteDTO;
 import com.eventos.dto.ParticipanteResponseDTO;
 import com.eventos.model.Participante;
 import com.eventos.repository.ParticipanteRepository;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class ParticipanteService {
         return toResponseDTO(participante);
     }
 
-    public List<ParticipanteResponseDTO> listar() {
+    public List <ParticipanteResponseDTO> listar(){
         return participanteRepository.findAll().stream()
                 .map(this::toResponseDTO)
                 .toList();

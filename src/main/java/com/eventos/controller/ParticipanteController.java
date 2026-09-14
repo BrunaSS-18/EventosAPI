@@ -20,13 +20,12 @@ public class ParticipanteController {
     private final ParticipanteService participanteService;
 
     @PostMapping
-    @Operation (summary = "Cadastra os participantes")
     public ResponseEntity<ParticipanteResponseDTO> cadastrar(@Valid @RequestBody ParticipanteDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(participanteService.cadastrar(dto));
     }
 
     @GetMapping
-    @Operation (summary = "Lista os participantes")
+    @Operation(summary = "Lista os participantes")
     public ResponseEntity<List<ParticipanteResponseDTO>> listar(){
         return ResponseEntity.ok(participanteService.listar());
     }
