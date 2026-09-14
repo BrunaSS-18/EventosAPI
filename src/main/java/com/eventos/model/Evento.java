@@ -21,7 +21,8 @@ public class Evento {
     private String descricao;
 
     private LocalDate data;
-
+    
+    @Column(nullable = true)
     private String local;
 
     @Column(nullable = true)
