@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,5 +29,8 @@ public class Evento {
 
     @Column(nullable = true)
     private Integer capacidadeMaxima;
+
+    @OneToMany(mappedBy = "evento")
+    private List<Inscricao> inscricaos = new ArrayList<>();
 }
 

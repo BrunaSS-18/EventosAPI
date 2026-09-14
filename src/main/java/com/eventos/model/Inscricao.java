@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Inscricao {
 
     @Id
@@ -23,9 +22,9 @@ public class Inscricao {
     @Column(nullable = false)
     private LocalDate dataInscricao;
 
-    private String evento;
+    @ManyToOne
+    private Evento evento;
 
-    @OneToMany(mappedBy = "participante", cascade = CascadeType.ALL)
-    private List<Participante> participantes = new ArrayList<>();
-
+    @ManyToOne
+    private Participante participante;
 }
