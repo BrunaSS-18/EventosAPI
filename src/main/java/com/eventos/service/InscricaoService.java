@@ -36,14 +36,12 @@ public class InscricaoService {
         Participante participante = participanteRepository.findById(participanteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante não encontrado"));
 
-        // RN02 — Inscrição duplicada
         boolean jaInscrito = inscricaoRepository.findAll().stream()
                 .anyMatch(i -> i.getEvento().getId().equals(eventoId) && i.getParticipante().getId().equals(participanteId));
         if (jaInscrito) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O participante já está inscrito neste evento");
         }
 
-        // RN01 — Limite de vagas
         long totalInscritos = inscricaoRepository.findAll().stream()
                 .filter(i -> i.getEvento().getId().equals(eventoId))
                 .count();
@@ -73,6 +71,5 @@ public class InscricaoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Inscrição não encontrada");
         }
         inscricaoRepository.deleteById(inscricaoId);
-        // RN04 — Cancelamento libera vaga é implícito ao remover o registro
     }
 }
