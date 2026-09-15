@@ -1,5 +1,6 @@
 package com.eventos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class Evento {
     private Integer capacidadeMaxima;
 
     @OneToMany(mappedBy = "evento")
+    @JsonIgnore
     private List<Inscricao> inscricaos = new ArrayList<>();
 }
 

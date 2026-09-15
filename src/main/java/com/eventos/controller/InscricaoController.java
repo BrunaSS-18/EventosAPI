@@ -24,10 +24,10 @@ public class InscricaoController {
         Inscricao inscricao = inscricaoService.inscreverParticipante(request.eventoId(), request.participanteId());
 
         InscricaoResponseDTO response = new InscricaoResponseDTO(
-            inscricao.getId(),
-            inscricao.getEvento().getNome(),
-            inscricao.getParticipante().getNome(),
-            inscricao.getDataInscricao()
+                inscricao.getId(),
+                inscricao.getEvento().getNome(),
+                inscricao.getParticipante().getNome(),
+                inscricao.getDataInscricao()
         );
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
