@@ -1,5 +1,6 @@
 package com.eventos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +27,6 @@ public class Participante {
     private String email;
 
     @OneToMany(mappedBy = "participante")
+    @JsonIgnore
     private List<Inscricao> inscricoes = new ArrayList<>();
 }

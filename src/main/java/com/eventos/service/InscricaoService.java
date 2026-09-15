@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class InscricaoService {
@@ -36,15 +35,11 @@ public class InscricaoService {
         Participante participante = participanteRepository.findById(participanteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante não encontrado"));
 
-        boolean jaInscrito = inscricaoRepository.findAll().stream()
-                .anyMatch(i -> i.getEvento().getId().equals(eventoId) && i.getParticipante().getId().equals(participanteId));
-        if (jaInscrito) {
+        if (inscricaoRepository.existsByEventoIdAndParticipanteId(eventoId, participanteId)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O participante já está inscrito neste evento");
         }
 
-        long totalInscritos = inscricaoRepository.findAll().stream()
-                .filter(i -> i.getEvento().getId().equals(eventoId))
-                .count();
+        long totalInscritos = inscricaoRepository.countByEventoId(eventoId);
 
         if (evento.getCapacidadeMaxima() != null && totalInscritos >= evento.getCapacidadeMaxima()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O evento está lotado");
@@ -59,10 +54,7 @@ public class InscricaoService {
     }
 
     public List<Participante> listarParticipantesPorEvento(Long eventoId) {
-        return inscricaoRepository.findAll().stream()
-                .filter(i -> i.getEvento().getId().equals(eventoId))
-                .map(Inscricao::getParticipante)
-                .collect(Collectors.toList());
+        return inscricaoRepository.findParticipantesByEventoId(eventoId);
     }
 
     @Transactional

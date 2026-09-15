@@ -19,35 +19,26 @@ public class InscricaoController {
     @Autowired
     private InscricaoService inscricaoService;
 
-    /**
-     * RF05 - Inscrever um participante em um evento.
-     */
     @PostMapping
     public ResponseEntity<InscricaoResponseDTO> inscrever(@RequestBody InscricaoRequestDTO request) {
         Inscricao inscricao = inscricaoService.inscreverParticipante(request.eventoId(), request.participanteId());
 
         InscricaoResponseDTO response = new InscricaoResponseDTO(
-            inscricao.getId(),
-            inscricao.getEvento().getNome(),
-            inscricao.getParticipante().getNome(),
-            inscricao.getDataInscricao()
+                inscricao.getId(),
+                inscricao.getEvento().getNome(),
+                inscricao.getParticipante().getNome(),
+                inscricao.getDataInscricao()
         );
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    /**
-     * RF06 - Listar os participantes inscritos em um evento.
-     */
     @GetMapping("/evento/{eventoId}")
     public ResponseEntity<List<Participante>> listarPorEvento(@PathVariable Long eventoId) {
         List<Participante> participantes = inscricaoService.listarParticipantesPorEvento(eventoId);
         return ResponseEntity.ok(participantes);
     }
 
-    /**
-     * RF07 - Cancelar a inscrição de um participante em um evento.
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> cancelar(@PathVariable Long id) {
         inscricaoService.cancelarInscricao(id);
