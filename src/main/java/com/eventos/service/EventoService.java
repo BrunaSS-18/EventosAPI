@@ -3,10 +3,12 @@ package com.eventos.service;
 import com.eventos.dto.EventoDTO;
 import com.eventos.dto.EventoResponseDTO;
 import com.eventos.model.Evento;
+import com.eventos.model.Inscricao;
 import com.eventos.repository.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,7 +35,24 @@ public class EventoService {
     public EventoResponseDTO buscarPorId(Long id) {
         Evento evento = eventoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("teste"));
-        return toResponseDTO(evento);
+                List<String> participantes = new ArrayList<>();
+
+                for(Inscricao inscricao : evento.getInscricaos()){
+                    participantes.add(inscricao.getParticipante().getNome());
+                }
+
+        return toResponseDTO(evento, participantes);
+    }
+
+    private EventoResponseDTO toResponseDTO(Evento evento, List<String> participante) {
+        return new EventoResponseDTO(
+                evento.getId(),
+                evento.getNome(),
+                evento.getDescricao(),
+                evento.getData(),
+                evento.getCapacidadeMaxima(),
+                participante
+        );
     }
 
     private EventoResponseDTO toResponseDTO(Evento evento) {
@@ -42,8 +61,8 @@ public class EventoService {
                 evento.getNome(),
                 evento.getDescricao(),
                 evento.getData(),
-                evento.getCapacidadeMaxima()
+                evento.getCapacidadeMaxima(),
+                null
         );
     }
-
 }
